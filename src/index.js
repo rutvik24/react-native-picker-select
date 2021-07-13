@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Keyboard, Modal, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash.isequal';
+import {findIndex} from 'lodash';
 import { Picker } from '@react-native-picker/picker';
 import { defaultStyles } from './styles';
 
@@ -168,15 +169,20 @@ export default class RNPickerSelect extends PureComponent {
     };
 
     onUpArrow() {
-        const { onUpArrow } = this.props;
-
-        this.togglePicker(false, onUpArrow);
+        const currnt = this.state.selectedItem.label;
+        const index = findIndex(this.state.items,{label:currnt})
+        if (index>0){
+            this.onValueChange((this.state.items[index-1].value),index-1);
+         }
     }
 
     onDownArrow() {
-        const { onDownArrow } = this.props;
-
-        this.togglePicker(false, onDownArrow);
+        const currnt = this.state.selectedItem.label;
+        const index = findIndex(this.state.items,{label:currnt})
+        const item= this.state.items;
+         if (index<(item?.length-1)){
+            this.onValueChange((this.state.items[index+1].value),index+1);
+         }
     }
 
     onValueChange(value, index) {
