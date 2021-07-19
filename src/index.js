@@ -169,20 +169,29 @@ export default class RNPickerSelect extends PureComponent {
     };
 
     onUpArrow() {
+        try{   
         const currnt = this.state.selectedItem.label;
         const index = findIndex(this.state.items,{label:currnt})
         if (index>0){
             this.onValueChange((this.state.items[index-1].value),index-1);
          }
+        }catch(err){
+            console.log(err);
+        }
     }
 
     onDownArrow() {
-        const currnt = this.state.selectedItem.label;
-        const index = findIndex(this.state.items,{label:currnt})
-        const item= this.state.items;
-         if (index<(item?.length-1)){
-            this.onValueChange((this.state.items[index+1].value),index+1);
-         }
+        try{
+             const currnt = this.state.selectedItem.label;
+             const index = findIndex(this.state.items,{label:currnt})
+             const item= this.state.items;
+             if (index<(item?.length-1)){
+                this.onValueChange((this.state.items[index+1].value),index+1);
+             }
+        }catch(err){
+         console.log(err);   
+        }
+       
     }
 
     onValueChange(value, index) {
